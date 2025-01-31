@@ -1,16 +1,113 @@
-import Link from "next/link";
+"use client"
 
-export default function HomePage() {
+import { useState } from "react"
+import type { FileItem, Folder } from "~/lib/types"
+import { mockFiles } from "~/lib/mock-data"
+import { Button } from "~/components/ui/button"
+import { Upload, File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
+import Link from "next/link"
+
+export default function GoogleDriveClone() {
+  const [currentFolder, setCurrentFolder] = useState<Folder>({
+    id: "root",
+    name: "My Drive",
+    type: "folder",
+    modified: "",
+    parentId: null,
+  })
+  const [breadcrumbs, setBreadcrumbs] = useState<Folder[]>([currentFolder])
+
+  const getCurrentFiles = () => {
+    return mockFiles.filter((file) => file.parentId === currentFolder.id)
+  }
+
+  const handleFolderClick = (folder: Folder) => {
+    setCurrentFolder(folder)
+    setBreadcrumbs([...breadcrumbs, folder])
+  }
+
+  const handleBreadcrumbClick = (index: number) => {
+    const newBreadcrumbs = breadcrumbs.slice(0, index + 1)
+    const lastFolder = newBreadcrumbs[newBreadcrumbs.length - 1]
+    if (lastFolder) {
+      setCurrentFolder(lastFolder)
+      setBreadcrumbs(newBreadcrumbs)
+    } else {
+      // If for some reason we don't have a valid folder, reset to root
+      const rootFolder = mockFiles.find((file) => file.id === "root") as Folder
+      setCurrentFolder(rootFolder)
+      setBreadcrumbs([rootFolder])
+    }
+  }
+
+  const getFileIcon = (type: FileItem["type"]) => {
+    switch (type) {
+      case "folder":
+        return <FolderIcon className="w-6 h-6" />
+      case "document":
+        return <FileText className="w-6 h-6" />
+      case "image":
+        return <Image className="w-6 h-6" />
+      case "video":
+        return <Video className="w-6 h-6" />
+      case "audio":
+        return <Music className="w-6 h-6" />
+      default:
+        return <File className="w-6 h-6" />
+    }
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          {"Hey! Mom."} 
-        </div>
+    <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
+      <h1 className="text-3xl font-bold mb-8">Google Drive Clone</h1>
+
+      {/* Breadcrumb navigation */}
+      <nav className="flex mb-4">
+        {breadcrumbs.map((folder, index) => (
+          <div key={folder.id} className="flex items-center">
+            {index > 0 && <span className="mx-2">/</span>}
+            <button onClick={() => handleBreadcrumbClick(index)} className="text-blue-400 hover:underline">
+              {folder.name}
+            </button>
+          </div>
+        ))}
+      </nav>
+
+      {/* Upload button */}
+      <div className="mb-4">
+        <Button className="bg-blue-600 hover:bg-blue-700">
+          <Upload className="w-4 h-4 mr-2" />
+          Upload
+        </Button>
       </div>
-    </main>
-  );
+
+      {/* File list */}
+      <div className="bg-gray-800 rounded-lg overflow-hidden">
+        <div className="grid grid-cols-12 gap-4 p-4 border-b border-gray-700 font-semibold">
+          <div className="col-span-6">Name</div>
+          <div className="col-span-3">Size</div>
+          <div className="col-span-3">Last Modified</div>
+        </div>
+        {getCurrentFiles().map((file) => (
+          <div key={file.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
+            <div className="col-span-6 flex items-center">
+              {getFileIcon(file.type)}
+              {file.type === "folder" ? (
+                <button onClick={() => handleFolderClick(file as Folder)} className="ml-2 hover:underline">
+                  {file.name}
+                </button>
+              ) : (
+                <Link href="#" className="ml-2 hover:underline">
+                  {file.name}
+                </Link>
+              )}
+            </div>
+            <div className="col-span-3">{file.size || "-"}</div>
+            <div className="col-span-3">{file.modified}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
+
