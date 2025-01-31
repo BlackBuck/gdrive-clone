@@ -102,7 +102,7 @@ export default function GoogleDriveClone() {
                 </Link>
               )}
             </div>
-            <div className="col-span-3">{file.size || "-"}</div>
+            <div className="col-span-3">{file.size ?? "-"}</div>
             <div className="col-span-3">{file.modified}</div>
           </div>
         ))}
