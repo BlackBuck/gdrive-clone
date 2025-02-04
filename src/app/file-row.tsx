@@ -1,6 +1,7 @@
 import type { FileItem, Folder } from "~/lib/types"
 import { File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
 import Link from "next/link"
+import { files, folders } from "~/server/db/schema"
 
 
 const getFileIcon = (type: FileItem["type"]) => {
@@ -20,20 +21,20 @@ const getFileIcon = (type: FileItem["type"]) => {
     }
   }
 
-export function FileRow(props: {files: FileItem[]}) {
+export function FileRow(props: {files: typeof files.$inferSelect[]}) {
       
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden">
         {props.files.map((file) => (
           <div key={file.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
             <div className="col-span-6 flex items-center">
-              {getFileIcon(file.type)}
+              {getFileIcon("document")}
               <Link href="#" className="ml-2 hover:underline">
                   {file.name}
                 </Link>
             </div>
-            <div className="col-span-3">{file.size ?? "-"}</div>
-            <div className="col-span-3">{file.modified}</div>
+            <div className="col-span-3">{`${file.size/(1e6)} MB` || "-"}</div>
+            {/* <div className="col-span-3">{file.modified}</div> */}
           </div>
         ))}
         
@@ -41,14 +42,14 @@ export function FileRow(props: {files: FileItem[]}) {
   )
 }
 
-export function FolderRow(props: {folders: Folder[], handleFolderClick: (f: Folder)=> void}) {
+export function FolderRow(props: {folders: typeof folders.$inferSelect[], handleFolderClick: (f: typeof folders.$inferSelect)=> void}) {
       
     return (
         <div className="bg-gray-800 rounded-lg overflow-hidden">
             {props.folders.map((folder) => (
               <div key={folder.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
                 <div className="col-span-6 flex items-center">
-                  {getFileIcon(folder.type)}
+                  {getFileIcon("folder")}
                   <button onClick={() => props.handleFolderClick(folder)} className="ml-2 hover:underline">
                       {folder.name}
                     </button>
