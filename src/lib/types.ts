@@ -4,12 +4,16 @@ export interface FileItem {
   id: string
   name: string
   type: FileType
-  size?: string
+  size: string
   modified: string
-  parentId: string | null
+  parent: string
+  url: string
 }
 
-export interface Folder extends FileItem {
+export interface Folder {
+  id: string
+  name: string
   type: "folder"
+  parent: string | null
 }
 

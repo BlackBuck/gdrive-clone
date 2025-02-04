@@ -1,0 +1,13 @@
+{
+  "version": "7",
+  "dialect": "singlestore",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "1",
+      "when": 1738368749457,
+      "tag": "0000_lame_kid_colt",
+      "breakpoints": true
+    }
+  ]
+}

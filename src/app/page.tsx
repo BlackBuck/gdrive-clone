@@ -2,23 +2,26 @@
 
 import { useState } from "react"
 import type { FileItem, Folder } from "~/lib/types"
-import { mockFiles } from "~/lib/mock-data"
+import { mockFiles, mockFolders } from "~/lib/mock-data"
 import { Button } from "~/components/ui/button"
 import { Upload, File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
-import Link from "next/link"
+import { FileRow, FolderRow } from "./file-row"
 
 export default function GoogleDriveClone() {
   const [currentFolder, setCurrentFolder] = useState<Folder>({
     id: "root",
     name: "My Drive",
     type: "folder",
-    modified: "",
-    parentId: null,
+    parent: null,
   })
   const [breadcrumbs, setBreadcrumbs] = useState<Folder[]>([currentFolder])
 
   const getCurrentFiles = () => {
-    return mockFiles.filter((file) => file.parentId === currentFolder.id)
+    return mockFiles.filter((file) => file.parent === currentFolder.id)
+  }
+
+  const getCurrentFolders = () => {
+    return mockFolders.filter((folder) => folder.parent === currentFolder.id)
   }
 
   const handleFolderClick = (folder: Folder) => {
@@ -88,24 +91,8 @@ export default function GoogleDriveClone() {
           <div className="col-span-3">Size</div>
           <div className="col-span-3">Last Modified</div>
         </div>
-        {getCurrentFiles().map((file) => (
-          <div key={file.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
-            <div className="col-span-6 flex items-center">
-              {getFileIcon(file.type)}
-              {file.type === "folder" ? (
-                <button onClick={() => handleFolderClick(file as Folder)} className="ml-2 hover:underline">
-                  {file.name}
-                </button>
-              ) : (
-                <Link href="#" className="ml-2 hover:underline">
-                  {file.name}
-                </Link>
-              )}
-            </div>
-            <div className="col-span-3">{file.size ?? "-"}</div>
-            <div className="col-span-3">{file.modified}</div>
-          </div>
-        ))}
+        {FolderRow({folders: getCurrentFolders(), handleFolderClick: handleFolderClick})}
+        {FileRow({files: getCurrentFiles()})}
       </div>
     </div>
   )
