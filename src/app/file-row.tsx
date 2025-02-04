@@ -1,4 +1,3 @@
-import { useState } from "react"
 import type { FileItem, Folder } from "~/lib/types"
 import { File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
 import Link from "next/link"
@@ -22,13 +21,6 @@ const getFileIcon = (type: FileItem["type"]) => {
   }
 
 export function FileRow(props: {files: FileItem[]}) {
-    const [currentFolder, setCurrentFolder] = useState<Folder>({
-        id: "root",
-        name: "My Drive",
-        type: "folder",
-        parent: null,
-      })
-    const [breadcrumbs, setBreadcrumbs] = useState<Folder[]>([currentFolder])
       
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden">
@@ -49,25 +41,16 @@ export function FileRow(props: {files: FileItem[]}) {
   )
 }
 
-export function FolderRow(props: {folders: Folder[], handleFolderClick: Function}) {
-    const [currentFolder, setCurrentFolder] = useState<Folder>({
-        id: "root",
-        name: "My Drive",
-        type: "folder",
-        parent: null,
-      })
-      const [breadcrumbs, setBreadcrumbs] = useState<Folder[]>([currentFolder])
-      
-      
+export function FolderRow(props: {folders: Folder[], handleFolderClick: (f: Folder)=> void}) {
       
     return (
         <div className="bg-gray-800 rounded-lg overflow-hidden">
-            {props.folders.map((file) => (
-              <div key={file.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
+            {props.folders.map((folder) => (
+              <div key={folder.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
                 <div className="col-span-6 flex items-center">
-                  {getFileIcon(file.type)}
-                  <button onClick={() => props.handleFolderClick(file as Folder)} className="ml-2 hover:underline">
-                      {file.name}
+                  {getFileIcon(folder.type)}
+                  <button onClick={() => props.handleFolderClick(folder)} className="ml-2 hover:underline">
+                      {folder.name}
                     </button>
                 </div>
               </div>

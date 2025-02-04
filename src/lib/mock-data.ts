@@ -1,4 +1,4 @@
-import type { FileItem, FileType, Folder } from "./types"
+import type { FileItem, Folder } from "./types"
 
 export const mockFolders: Folder[] = [
   {id: "root", name: "root", type: "folder", parent: null},

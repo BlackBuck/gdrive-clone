@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import type { FileItem, Folder } from "~/lib/types"
+import type { Folder } from "~/lib/types"
 import { mockFiles, mockFolders } from "~/lib/mock-data"
 import { Button } from "~/components/ui/button"
-import { Upload, File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
+import { Upload } from "lucide-react"
 import { FileRow, FolderRow } from "./file-row"
 
 export default function GoogleDriveClone() {
@@ -40,23 +40,6 @@ export default function GoogleDriveClone() {
       const rootFolder = mockFiles.find((file) => file.id === "root") as Folder
       setCurrentFolder(rootFolder)
       setBreadcrumbs([rootFolder])
-    }
-  }
-
-  const getFileIcon = (type: FileItem["type"]) => {
-    switch (type) {
-      case "folder":
-        return <FolderIcon className="w-6 h-6" />
-      case "document":
-        return <FileText className="w-6 h-6" />
-      case "image":
-        return <Image className="w-6 h-6" />
-      case "video":
-        return <Video className="w-6 h-6" />
-      case "audio":
-        return <Music className="w-6 h-6" />
-      default:
-        return <File className="w-6 h-6" />
     }
   }
 
