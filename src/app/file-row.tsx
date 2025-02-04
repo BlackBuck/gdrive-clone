@@ -1,7 +1,7 @@
-import type { FileItem, Folder } from "~/lib/types"
+import type { FileItem } from "~/lib/types"
 import { File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
 import Link from "next/link"
-import { files, folders } from "~/server/db/schema"
+import type { files, folders } from "~/server/db/schema"
 
 
 const getFileIcon = (type: FileItem["type"]) => {
@@ -50,9 +50,9 @@ export function FolderRow(props: {folders: typeof folders.$inferSelect[], handle
               <div key={folder.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
                 <div className="col-span-6 flex items-center">
                   {getFileIcon("folder")}
-                  <button onClick={() => props.handleFolderClick(folder)} className="ml-2 hover:underline">
+                  <Link href={`/f/${folder.id}`} className="ml-2 hover:underline">
                       {folder.name}
-                    </button>
+                    </Link>
                 </div>
               </div>
             ))}

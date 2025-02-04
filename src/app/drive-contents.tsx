@@ -17,14 +17,6 @@ export default function DriveContents(props: {
   })
   const [breadcrumbs, setBreadcrumbs] = useState<typeof folders.$inferSelect[]>([currentFolder])
 
-  const getCurrentFiles = () => {
-    return props.files.filter((file) => file.parent === currentFolder.id)
-  }
-
-  const getCurrentFolders = () => {
-    return props.folders.filter((folder) => folder.parent === currentFolder.id)
-  }
-
   const handleFolderClick = (folder: typeof folders.$inferSelect) => {
     setCurrentFolder(folder)
     setBreadcrumbs([...breadcrumbs, folder])
@@ -75,8 +67,8 @@ export default function DriveContents(props: {
           <div className="col-span-3">Size</div>
           <div className="col-span-3">Last Modified</div>
         </div>
-        {FolderRow({folders: getCurrentFolders(), handleFolderClick: handleFolderClick})}
-        {FileRow({files: getCurrentFiles()})}
+        {FolderRow({folders: props.folders, handleFolderClick: handleFolderClick})}
+        {FileRow({files: props.files})}
       </div>
     </div>
   )
