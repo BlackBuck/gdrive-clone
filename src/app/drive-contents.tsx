@@ -1,40 +1,20 @@
 "use client"
 
 import { useState } from "react"
-import type { folders, files } from "~/server/db/schema"
+import { folders, files } from "~/server/db/schema"
 import { Button } from "~/components/ui/button"
 import { Upload } from "lucide-react"
 import { FileRow, FolderRow } from "./file-row"
+import Link from "next/link"
 
 export default function DriveContents(props: {
     files: typeof files.$inferSelect[]
     folders: typeof folders.$inferSelect[]
+    parents: typeof folders.$inferSelect[]
 }) {
-  const [currentFolder, setCurrentFolder] = useState<typeof folders.$inferSelect>({
-    id: 1,
-    name: "My Drive",
-    parent: null,
-  })
-  const [breadcrumbs, setBreadcrumbs] = useState<typeof folders.$inferSelect[]>([currentFolder])
+  const [breadcrumbs, setBreadCrumbs] = useState<typeof folders.$inferSelect[]>(props.parents.reverse());
 
-  const handleFolderClick = (folder: typeof folders.$inferSelect) => {
-    setCurrentFolder(folder)
-    setBreadcrumbs([...breadcrumbs, folder])
-  }
-
-  const handleBreadcrumbClick = (index: number) => {
-    const newBreadcrumbs = breadcrumbs.slice(0, index + 1)
-    const lastFolder = newBreadcrumbs[newBreadcrumbs.length - 1]
-    if (lastFolder) {
-      setCurrentFolder(lastFolder)
-      setBreadcrumbs(newBreadcrumbs)
-    } else {
-      // If for some reason we don't have a valid folder, reset to root
-      const rootFolder = props.files.find((file) => file.id === 1) as typeof folders.$inferSelect
-      setCurrentFolder(rootFolder)
-      setBreadcrumbs([rootFolder])
-    }
-  }
+  
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-8">
@@ -42,13 +22,13 @@ export default function DriveContents(props: {
 
       {/* Breadcrumb navigation */}
       <nav className="flex mb-4">
-        {breadcrumbs.map((folder, index) => (
-          <div key={folder.id} className="flex items-center">
+        {breadcrumbs.map((folder, index)=> (
+           <div key={`${folder.id}`} className="flex items-center">
             {index > 0 && <span className="mx-2">/</span>}
-            <button onClick={() => handleBreadcrumbClick(index)} className="text-blue-400 hover:underline">
-              {folder.name}
-            </button>
-          </div>
+            <Link href={`/f/${folder.id}`} className="text-blue-400 hover:underline">
+              {index === 0 ? "My Drive" : folder.name}
+          </Link>
+        </div>
         ))}
       </nav>
 
@@ -67,7 +47,7 @@ export default function DriveContents(props: {
           <div className="col-span-3">Size</div>
           <div className="col-span-3">Last Modified</div>
         </div>
-        {FolderRow({folders: props.folders, handleFolderClick: handleFolderClick})}
+        {FolderRow({folders: props.folders})}
         {FileRow({files: props.files})}
       </div>
     </div>

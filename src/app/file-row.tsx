@@ -42,7 +42,7 @@ export function FileRow(props: {files: typeof files.$inferSelect[]}) {
   )
 }
 
-export function FolderRow(props: {folders: typeof folders.$inferSelect[], handleFolderClick: (f: typeof folders.$inferSelect)=> void}) {
+export function FolderRow(props: {folders: typeof folders.$inferSelect[]}) {
       
     return (
         <div className="bg-gray-800 rounded-lg overflow-hidden">
