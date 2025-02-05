@@ -1,18 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { folders, files } from "~/server/db/schema"
+import { folders_table, files_table } from "~/server/db/schema"
 import { Button } from "~/components/ui/button"
 import { Upload } from "lucide-react"
 import { FileRow, FolderRow } from "./file-row"
 import Link from "next/link"
 
 export default function DriveContents(props: {
-    files: typeof files.$inferSelect[]
-    folders: typeof folders.$inferSelect[]
-    parents: typeof folders.$inferSelect[]
+    files: typeof files_table.$inferSelect[]
+    folders: typeof folders_table.$inferSelect[]
+    parents: typeof folders_table.$inferSelect[]
 }) {
-  const [breadcrumbs, setBreadCrumbs] = useState<typeof folders.$inferSelect[]>(props.parents.reverse());
+  const [breadcrumbs, setBreadCrumbs] = useState<typeof folders_table.$inferSelect[]>(props.parents.reverse());
 
   
 

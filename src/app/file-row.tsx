@@ -1,7 +1,7 @@
 import type { FileItem } from "~/lib/types"
 import { File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
 import Link from "next/link"
-import type { files, folders } from "~/server/db/schema"
+import type { files_table, folders_table } from "~/server/db/schema"
 
 
 const getFileIcon = (type: FileItem["type"]) => {
@@ -21,7 +21,7 @@ const getFileIcon = (type: FileItem["type"]) => {
     }
   }
 
-export function FileRow(props: {files: typeof files.$inferSelect[]}) {
+export function FileRow(props: {files: typeof files_table.$inferSelect[]}) {
       
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden">
@@ -42,7 +42,7 @@ export function FileRow(props: {files: typeof files.$inferSelect[]}) {
   )
 }
 
-export function FolderRow(props: {folders: typeof folders.$inferSelect[]}) {
+export function FolderRow(props: {folders: typeof folders_table.$inferSelect[]}) {
       
     return (
         <div className="bg-gray-800 rounded-lg overflow-hidden">
