@@ -4,6 +4,7 @@ import { useState } from "react"
 import { folders_table, files_table } from "~/server/db/schema"
 import { Button } from "~/components/ui/button"
 import { Upload } from "lucide-react"
+import { SignedOut, SignedIn, SignInButton, UserButton } from "@clerk/nextjs"
 import { FileRow, FolderRow } from "./file-row"
 import Link from "next/link"
 
@@ -34,10 +35,17 @@ export default function DriveContents(props: {
 
       {/* Upload button */}
       <div className="mb-4">
-        <Button className="bg-blue-600 hover:bg-blue-700">
+        {/* <Button className="bg-blue-600 hover:bg-blue-700">
           <Upload className="w-4 h-4 mr-2" />
           Upload
-        </Button>
+        </Button> */}
+
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </div>
 
       {/* File list */}
