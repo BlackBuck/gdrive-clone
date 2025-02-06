@@ -16,6 +16,7 @@ export const env = createEnv({
     SINGLESTORE_DB_NAME: z.string(),
     CLERK_SECRET_KEY: z.string(),
     DATABASE_URL: z.string().url(),
+    UPLOADTHING_TOKEN: z.string(),
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
@@ -36,6 +37,7 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
+    UPLOADTHING_TOKEN: process.env.UPLOADTHING_TOKEN,
     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
     CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     SINGLESTORE_HOST: process.env.SINGLESTORE_HOST,

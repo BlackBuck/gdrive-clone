@@ -2,11 +2,11 @@
 
 import { useState } from "react"
 import { folders_table, files_table } from "~/server/db/schema"
-import { Button } from "~/components/ui/button"
-import { Upload } from "lucide-react"
 import { SignedOut, SignedIn, SignInButton, UserButton } from "@clerk/nextjs"
 import { FileRow, FolderRow } from "./file-row"
 import Link from "next/link"
+import { UploadButton } from "~/components/ui/uploadthing"
+import { useRouter } from "next/navigation"
 
 export default function DriveContents(props: {
     files: typeof files_table.$inferSelect[]
@@ -15,6 +15,7 @@ export default function DriveContents(props: {
 }) {
   const [breadcrumbs, setBreadCrumbs] = useState<typeof folders_table.$inferSelect[]>(props.parents.reverse());
 
+  const navigate = useRouter();
   
 
   return (
@@ -22,21 +23,25 @@ export default function DriveContents(props: {
       <h1 className="text-3xl font-bold mb-8">Google Drive Clone</h1>
 
       {/* Breadcrumb navigation */}
-      <nav className="flex min-w-screen justify-between mb-4">
+      <nav className="grid grid-cols-2 min-w-screen mb-4">
+        <div className="flex items-start">
         {breadcrumbs.map((folder, index)=> (
-           <div key={`${folder.id}`} className="flex items-center">
+           <div key={`${folder.id}`} className="flex items-start">
             {index > 0 && <span className="mx-2">/</span>}
-            <Link href={`/f/${folder.id}`} className="text-blue-400 hover:underline">
+            <a href={`/f/${folder.id}`} className="text-blue-400 hover:underline">
               {index === 0 ? "My Drive" : folder.name}
-          </Link>
+          </a>
         </div>
         ))}
+        </div>
+        <div className="flex items-end justify-end">
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
           <UserButton />
-        </SignedIn>
+        </SignedIn> 
+        </div>
       </nav>
 
       {/* Upload button */}
@@ -55,15 +60,20 @@ export default function DriveContents(props: {
       </div> */}
 
       {/* File list */}
-      <div className="bg-gray-800 rounded-lg overflow-hidden">
+      <div className="bg-gray-800 rounded-lg overflow-hiddeng gap-4">
         <div className="grid grid-cols-12 gap-4 p-4 border-b border-gray-700 font-semibold">
           <div className="col-span-6">Name</div>
           <div className="col-span-3">Size</div>
           <div className="col-span-3">Last Modified</div>
         </div>
+        <div className="mb-4">
         {FolderRow({folders: props.folders})}
         {FileRow({files: props.files})}
+        </div>
       </div>
+      <UploadButton endpoint="imageUploader" onClientUploadComplete={()=> {
+        navigate.refresh()
+      }}/>
     </div>
   )
 }

@@ -3,5 +3,6 @@
 ## TODO
 - [x] Set up database and data model
 - [x] Move folder open state to URL
-- [ ] Add authentication
-- [ ] Add file uploading
+- [x] Add authentication
+- [x] Add file uploading
+- [ ] Upload files to the right folder
