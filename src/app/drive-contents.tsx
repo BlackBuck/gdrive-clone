@@ -22,7 +22,7 @@ export default function DriveContents(props: {
       <h1 className="text-3xl font-bold mb-8">Google Drive Clone</h1>
 
       {/* Breadcrumb navigation */}
-      <nav className="flex mb-4">
+      <nav className="flex min-w-screen justify-between mb-4">
         {breadcrumbs.map((folder, index)=> (
            <div key={`${folder.id}`} className="flex items-center">
             {index > 0 && <span className="mx-2">/</span>}
@@ -31,14 +31,20 @@ export default function DriveContents(props: {
           </Link>
         </div>
         ))}
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
       </nav>
 
       {/* Upload button */}
-      <div className="mb-4">
-        {/* <Button className="bg-blue-600 hover:bg-blue-700">
+      {/* <div className="mb-4">
+         <Button className="bg-blue-600 hover:bg-blue-700">
           <Upload className="w-4 h-4 mr-2" />
           Upload
-        </Button> */}
+        </Button>
 
         <SignedOut>
           <SignInButton />
@@ -46,7 +52,7 @@ export default function DriveContents(props: {
         <SignedIn>
           <UserButton />
         </SignedIn>
-      </div>
+      </div> */}
 
       {/* File list */}
       <div className="bg-gray-800 rounded-lg overflow-hidden">
