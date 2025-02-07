@@ -1,7 +1,7 @@
 import type { FileItem } from "~/lib/types"
 import { File, FolderIcon, Image, Video, Music, FileText } from "lucide-react"
 import Link from "next/link"
-import type { files_table, folders_table } from "~/server/db/schema"
+import type { DB_FileType, DB_FolderType } from "~/server/db/schema"
 
 
 const getFileIcon = (type: FileItem["type"]) => {
@@ -21,7 +21,7 @@ const getFileIcon = (type: FileItem["type"]) => {
     }
   }
 
-export function FileRow(props: {files: typeof files_table.$inferSelect[]}) {
+export function FileRow(props: {files: DB_FileType[]}) {
       
   return (
     <div className="bg-gray-800 rounded-lg overflow-hidden">
@@ -29,12 +29,12 @@ export function FileRow(props: {files: typeof files_table.$inferSelect[]}) {
           <div key={file.id} className="grid grid-cols-12 gap-4 p-4 hover:bg-gray-700 transition-colors">
             <div className="col-span-6 flex items-center">
               {getFileIcon("document")}
-              <Link href="#" className="ml-2 hover:underline">
+              <a target="_blank" href={file.url} className="ml-2 hover:underline" download>
                   {file.name}
-                </Link>
+                </a>
             </div>
             <div className="col-span-3">{`${file.size/(1e6)} MB` || "-"}</div>
-            {/* <div className="col-span-3">{file.modified}</div> */}
+            <div className="col-span-3">{file.createdAt.getDate() + "/" +file.createdAt.getUTCMonth() + "/" +file.createdAt.getFullYear()}</div>
           </div>
         ))}
         
@@ -42,7 +42,7 @@ export function FileRow(props: {files: typeof files_table.$inferSelect[]}) {
   )
 }
 
-export function FolderRow(props: {folders: typeof folders_table.$inferSelect[]}) {
+export function FolderRow(props: {folders: DB_FolderType[]}) {
       
     return (
         <div className="bg-gray-800 rounded-lg overflow-hidden">
@@ -54,6 +54,8 @@ export function FolderRow(props: {folders: typeof folders_table.$inferSelect[]})
                       {folder.name}
                     </Link>
                 </div>
+                <div className="col-span-3">{"-"}</div>
+            <div className="col-span-3">{folder.createdAt.getDate() + "/" + folder.createdAt.getUTCMonth() + "/" + folder.createdAt.getFullYear()}</div>
               </div>
             ))}
             
