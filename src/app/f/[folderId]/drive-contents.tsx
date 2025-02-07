@@ -66,7 +66,7 @@ export default function DriveContents(props: {
       {/* File list */}
       <div className="bg-gray-800 rounded-lg overflow-hiddeng gap-4">
         <div className="grid grid-cols-12 gap-4 p-4 border-b border-gray-700 font-semibold">
-          <div className="col-span-6">Name</div>
+          <div className="col-span-5">Name</div>
           <div className="col-span-3">Size</div>
           <div className="col-span-3">Last Modified</div>
         </div>
