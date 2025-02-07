@@ -4,7 +4,7 @@ import { useState } from "react"
 import { folders_table, files_table } from "~/server/db/schema"
 import { SignedOut, SignedIn, SignInButton, UserButton } from "@clerk/nextjs"
 import { FileRow, FolderRow } from "./file-row"
-import Link from "next/link"
+// import Link from "next/link"
 import { UploadButton } from "~/components/ui/uploadthing"
 import { useRouter } from "next/navigation"
 

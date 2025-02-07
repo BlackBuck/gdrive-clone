@@ -2,8 +2,6 @@ import "server-only";
 import { eq } from "drizzle-orm";
 import { files_table, files_table as filesSchema, folders_table, folders_table as foldersSchema } from "./schema";
 import { db } from ".";
-import type { DB_FolderType, DB_FileType } from "./schema";
-import { userAgent } from "next/server";
 
 export const QUERIES = {
     getFiles: function (folderId: number) {

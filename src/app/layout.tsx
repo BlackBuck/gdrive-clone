@@ -1,7 +1,7 @@
 import "../styles/globals.css"
 import { Inter } from "next/font/google"
 import type React from "react" // Import React
-import { ClerkProvider, SignedOut, SignedIn } from "@clerk/nextjs"
+import { ClerkProvider } from "@clerk/nextjs"
 
 const inter = Inter({ subsets: ["latin"] })
 
