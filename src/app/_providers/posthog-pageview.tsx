@@ -20,7 +20,7 @@ export default function PostHogPageView() : null {
         })
 
     }
-  }, [posthog, userInfo.user?.id])
+  }, [posthog, userInfo.user])
 
   // Track pageviews
   useEffect(() => {

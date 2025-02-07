@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { folders_table, files_table } from "~/server/db/schema"
 import { SignedOut, SignedIn, SignInButton, UserButton } from "@clerk/nextjs"
 import { FileRow, FolderRow } from "./file-row"
@@ -16,6 +16,9 @@ export default function DriveContents(props: {
 }) {
   const [breadcrumbs, setBreadCrumbs] = useState<typeof folders_table.$inferSelect[]>(props.parents.reverse());
 
+  useEffect(()=> {
+    setBreadCrumbs(breadcrumbs)
+  }, [breadcrumbs]);
   const navigate = useRouter();
   
 
