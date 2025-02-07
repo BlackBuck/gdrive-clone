@@ -12,6 +12,7 @@ export default function DriveContents(props: {
     files: typeof files_table.$inferSelect[]
     folders: typeof folders_table.$inferSelect[]
     parents: typeof folders_table.$inferSelect[]
+    currentFolderId: number
 }) {
   const [breadcrumbs, setBreadCrumbs] = useState<typeof folders_table.$inferSelect[]>(props.parents.reverse());
 
@@ -71,9 +72,10 @@ export default function DriveContents(props: {
         {FileRow({files: props.files})}
         </div>
       </div>
-      <UploadButton endpoint="imageUploader" onClientUploadComplete={()=> {
+      <UploadButton input={{folderId: props.currentFolderId}} endpoint="imageUploader" onClientUploadComplete={()=> {
         navigate.refresh()
-      }}/>
+      }} 
+      />
     </div>
   )
 }

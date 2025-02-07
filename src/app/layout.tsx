@@ -6,7 +6,7 @@ import { ClerkProvider, SignedOut, SignedIn } from "@clerk/nextjs"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata = {
-  title: "Google Drive Clone",
+  title: "JAM Drive",
   description: "A basic Google Drive UI clone",
 }
 
