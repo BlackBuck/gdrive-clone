@@ -4,8 +4,6 @@ import Link from "next/link"
 import type { DB_FileType, DB_FolderType } from "~/server/db/schema"
 import { Button } from "~/components/ui/button"
 import { deleteFile } from "~/server/db/actions"
-import { useRouter } from "next/navigation"
-
 
 const getFileIcon = (type: FileItem["type"]) => {
     switch (type) {
@@ -51,9 +49,9 @@ export function FileRow(props: {files: DB_FileType[]}) {
               "/" +
               file.createdAt.getFullYear()}
           </div>
-          <Button className="items-center justify-items-center hover:bg-red-700 col-span-1" aria-label="Delete File" variant="ghost" onClick={()=> {
-            deleteFile(file.id)
-            }}>
+          <Button className="items-center justify-items-center hover:bg-red-700 col-span-1" aria-label="Delete File" variant="ghost" onClick={async ()=> {
+            await deleteFile(file.id)
+          }}>
             <Trash2Icon className="" />
           </Button>
         </div>

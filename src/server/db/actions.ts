@@ -5,6 +5,7 @@ import { db } from ".";
 import { files_table } from "./schema";
 import { and, eq } from "drizzle-orm";
 import { UTApi } from "uploadthing/server";
+import { cookies } from "next/headers";
 
 const utAPI = new UTApi();
 
@@ -27,6 +28,9 @@ export async function deleteFile(fileId: number) {
 
     const dbDeleteResult = await db.delete(files_table).where(eq(files_table.id, fileId))
     console.log(dbDeleteResult)
+
+    const c = await cookies();
+    c.set("force-refresh", JSON.stringify(Math.random())) // force refresh in a random interval between 0 and 1 second
 
     return {success: true};
 }
