@@ -43,6 +43,20 @@ export const QUERIES = {
 }
 
 export const MUTATIONS = {
+  createFolder: async function(input: {
+    folder: {
+        name: string;
+        parent: number;
+        ownerId: string;
+    },
+    userId: string;
+}) {
+    if(input.folder.ownerId !== input.userId) {
+      return null;
+    }
+
+    return await db.insert(foldersSchema).values(input.folder);
+  },
   createFile: async function (input: {
     file: {
       name: string;
