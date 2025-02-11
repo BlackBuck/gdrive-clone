@@ -2,7 +2,7 @@
 
 import { auth } from "@clerk/nextjs/server";
 import { db } from ".";
-import { files_table, folders_table } from "./schema";
+import { files_table } from "./schema";
 import { and, eq } from "drizzle-orm";
 import { UTApi } from "uploadthing/server";
 import { cookies } from "next/headers";

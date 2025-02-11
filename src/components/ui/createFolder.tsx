@@ -1,18 +1,14 @@
 "use client";
 
-import { useState } from "react"
-import { useActionState } from "react"
+import type { Dispatch, SetStateAction } from "react";
 import { Modal } from "./modal"
 import { Button } from "./button"
-import { MUTATIONS } from "~/server/db/queries"
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
-import { createFolder } from "~/server/db/actions";
-import { auth } from "@clerk/nextjs/server";
 
-export function Form(props: {isModalOpen: boolean, setIsModalOpen: Function, parent: number}) {
+
+export function Form(props: {isModalOpen: boolean, setIsModalOpen: Dispatch<SetStateAction<boolean>>, parent: number}) {
   const {isModalOpen, setIsModalOpen, parent} = props;
-  const [isPending, setIsPending] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
@@ -23,8 +19,8 @@ export function Form(props: {isModalOpen: boolean, setIsModalOpen: Function, par
             <Input id="input" name="input" required />
             <Input name="parent" type="hidden" value={parent} />
           </div>
-          <Button type="submit" disabled={isPending}>
-            {isPending ? "Submitting..." : "Submit"}
+          <Button type="submit">
+            {"Submit"}
           </Button>
         </form>
       </Modal>

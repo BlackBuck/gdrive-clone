@@ -9,8 +9,6 @@ import { UploadButton } from "~/components/ui/uploadthing"
 import { useRouter } from "next/navigation"
 import { Button } from "~/components/ui/button"
 import { Form } from "~/components/ui/createFolder"
-import { MUTATIONS } from "~/server/db/queries"
-import { auth } from "@clerk/nextjs/server"
 
 export default function DriveContents(props: {
     files: typeof files_table.$inferSelect[]

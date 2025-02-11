@@ -6,19 +6,30 @@ import { createFolder } from '~/server/db/actions';
 export async function POST(req: Request) {
     try {
         const formData = await req.formData();
-        const folderName = formData.get("input")!.toString();
-        const parentId = parseInt(formData.get("parent")!.toString());
-        console.log(parentId, folderName)
+        const folderName = formData.get("input");
+        const parentIdRaw = formData.get("parent");
+
+        if(typeof parentIdRaw !== 'string') {
+            return NextResponse.json({ error: 'Invalid Parent Id' }, { status: 500 });
+        }
+
+        if(typeof folderName !== 'string') {
+            return NextResponse.json({ error: 'Invalid folder name' }, { status: 500 });
+        }
+
         const session = await auth();
 
         if(!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
         }
 
-        await createFolder(folderName, parentId, session.userId!);
+        const parsedParentId = parseInt(parentIdRaw);
+        const parsedFolderName = folderName.toString();
+        await createFolder(folderName, parsedParentId, session.userId!);
 
-        return NextResponse.redirect(new URL(`/f/${parentId}`, req.url))
+        return NextResponse.redirect(new URL(`/f/${parsedParentId}`, req.url))
     } catch (error) {
+        console.log(error);
         return NextResponse.json({ error: 'Failed to create folder' }, { status: 500 });
     }
 }
